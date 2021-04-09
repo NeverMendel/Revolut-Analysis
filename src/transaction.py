@@ -2,12 +2,15 @@ from datetime import datetime
 
 
 class Transaction:
+    """
+    Credit card transaction
+    """
     def __init__(self, csv_obj: dict):
         c = list(csv_obj.keys())[2]
 
         self.currency = c[c.index("(") + 1:c.index(")")]
         currency_string = '(' + self.currency + ')'
-        self.date = datetime.strptime(csv_obj['Completed Date'], "%d %b %Y").date()
+        self.date = datetime.strptime(csv_obj['Completed Date'], "%d %b %Y")
         self.description = csv_obj['Description']
 
         self.money_out = 0

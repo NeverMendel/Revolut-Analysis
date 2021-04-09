@@ -3,7 +3,7 @@ import csv
 from statement import *
 
 
-def normalize_csv(path):
+def normalize_csv(path: str):
     file = open(path, "rt")
     dataIn = file.read()
     data = dataIn
@@ -22,7 +22,7 @@ def normalize_csv(path):
         file.close()
 
 
-def read_statement_csv(path) -> Statement:
+def read_statement_csv(path: str) -> Statement:
     transactions = []
     dict = csv.DictReader(open(path), delimiter=',')
     for el in dict:
