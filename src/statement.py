@@ -1,14 +1,16 @@
-from datetime import date, timedelta
-from typing import List, Dict
+from datetime import date, timedelta, datetime
 from statistics import mean
+from typing import List, Dict
+from collections import OrderedDict
 
-from transaction import *
+from transaction import Transaction
 
 
 class Statement:
     """
     A list of transaction in a certain currency - represent a Revolut statement
     """
+
     def __init__(self, currency: str, transactions: List[Transaction]):
         self.currency = currency
         self.transactions = transactions
@@ -21,7 +23,9 @@ class Statement:
             balance += tr.money_in
             balance -= tr.money_out
             if round(balance, 2) != tr.balance:
-                errors += 'Problem with balance in transaction ' + str(tr.date) + ' ' + tr.description + '; balance should be ' + str(balance) + ' but is ' + str(tr.balance)
+                errors += 'Problem with balance in transaction ' + str(
+                    tr.date) + ' ' + tr.description + '; balance should be ' + str(balance) + ' but is ' + str(
+                    tr.balance)
                 tr_okay = False
         return tr_okay, errors
 
@@ -54,21 +58,26 @@ class Statement:
             last_value = balance_dict[current_date]
             current_date += timedelta(days=1)
 
+        balance_dict = balance_dict
+
+        sorted(balance_dict)
+
         return balance_dict
 
     def get_list_balance_per_day_complete_by_year(self, year: int) -> Dict[date, float]:
-        balance_dict = self.get_list_balance_per_day()
-        current_date = date(year, 1, 1)
-        end_date = date(year, 12, 31)
+        balance_dict = self.get_list_balance_per_day_complete()
+        res_dict = {}
+        current_date = datetime(year, 1, 1, 0, 0, 0)
+        end_date = datetime(year, 12, 31, 0, 0, 0)
         last_value = 0
 
         while current_date <= end_date:
-            if current_date not in balance_dict:
-                balance_dict[current_date] = last_value
-            last_value = balance_dict[current_date]
+            if current_date in balance_dict:
+                last_value = balance_dict[current_date]
+            res_dict[current_date] = last_value
             current_date += timedelta(days=1)
 
-        return balance_dict
+        return res_dict
 
     def get_average_balance(self, year: int) -> float:
         balance_dict = self.get_list_balance_per_day_complete_by_year(year)

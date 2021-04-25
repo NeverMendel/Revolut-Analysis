@@ -5,6 +5,7 @@ class Transaction:
     """
     Credit card transaction
     """
+
     def __init__(self, csv_obj: dict):
         c = list(csv_obj.keys())[2]
 

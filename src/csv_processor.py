@@ -1,12 +1,16 @@
 import csv
 
-from statement import *
+from statement import Statement
+from transaction import Transaction
+
+import re
 
 
 def normalize_csv(path: str):
     file = open(path, "rt")
-    dataIn = file.read()
-    data = dataIn
+    data_in = file.read()
+    data = data_in
+    data = re.sub(r"(\d+),(\d)", r"\1\2", data)
     if ";" in data:
         data = data.replace('.', '')
         data = data.replace(',', '.')
@@ -16,7 +20,7 @@ def normalize_csv(path: str):
         data = data.replace(' , ', ',')
         data = data.replace(' ,', ',')
     file.close()
-    if data != dataIn:
+    if data != data_in:
         file = open(path, "wt")
         file.write(data)
         file.close()
@@ -24,8 +28,8 @@ def normalize_csv(path: str):
 
 def read_statement_csv(path: str) -> Statement:
     transactions = []
-    dict = csv.DictReader(open(path), delimiter=',')
-    for el in dict:
+    tr_dict = csv.DictReader(open(path), delimiter=',')
+    for el in tr_dict:
         transaction = Transaction(el)
         transactions.append(transaction)
 
