@@ -20,9 +20,9 @@ The script can plot similar charts to the two below.
 
 Click on either chart to be redirected to the interactive version.
 
-[![CHF example chart](./examples/CHF_chart.png)]()
+[![CHF example chart](./examples/CHF_chart.png)](https://nevermendel.github.io/Revolut-Analysis/balance_CHF.html)
 
-[![EUR example chart](./examples/EUR_chart.png)]()
+[![EUR example chart](./examples/EUR_chart.png)](https://nevermendel.github.io/Revolut-Analysis/balance_EUR.html)
 
 ## How to run it
 
@@ -44,7 +44,7 @@ Some examples of csv statements can be found in the folder examples.
 
 If the script is executed without any optional argument a menu will show up guiding you through the different functionalities of the script.
 
-```bash
+```
 Chose one of the following options:
   1 - Display balance over time chart
   2 - Check for errors in the statements
@@ -57,7 +57,7 @@ Chose one of the following options:
 
 The full list of optional arguments can be display by executing `./src/main.py --help`.
 
-```bash
+```
 usage: main.py [-h] [--show-chart] [--save-chart] [--check-errors]
                [--get-balance [GET_BALANCE]]
                [--average-balance [AVERAGE_BALANCE]]
