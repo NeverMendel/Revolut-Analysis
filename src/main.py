@@ -55,7 +55,7 @@ def menu_option(option: int, arg: Optional) -> bool:
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Analyse Revolut transactions.')
-    parser.add_argument('csv', metavar='N', type=str, nargs='+',
+    parser.add_argument('csv', metavar='STATEMENT_PATH', type=str, nargs='+',
                         help='statement filename')
     parser.add_argument('--show-chart', action="store_true",
                         help='display the balance charts')
@@ -64,9 +64,10 @@ if __name__ == '__main__':
     parser.add_argument('--check-errors', action="store_true",
                         help='check for errors in the statements')
     previous_year = datetime.today().year - 1
-    parser.add_argument('--get-balance', nargs='?', type=str, const=fr"31/12/{previous_year}",
-                        help='get balance at given date; default: last day of last year')
-    parser.add_argument('--average-balance', nargs='?', type=int, const=previous_year, help='get mean average balance in a given year')
+    parser.add_argument('--get-balance', metavar='DATE', nargs='?', type=str, const=fr"31/12/{previous_year}",
+                        help='get balance at given date. Date format d/m/yyyy. Default: last day of last year')
+    parser.add_argument('--average-balance', metavar='YEAR', nargs='?', type=int, const=previous_year,
+                        help='get mean average balance in a given year. Default: last year')
     args = parser.parse_args()
 
     statements = []

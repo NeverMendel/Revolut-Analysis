@@ -59,23 +59,22 @@ The full list of optional arguments can be display by executing `./src/main.py -
 
 ```
 usage: main.py [-h] [--show-chart] [--save-chart] [--check-errors]
-               [--get-balance [GET_BALANCE]]
-               [--average-balance [AVERAGE_BALANCE]]
-               N [N ...]
+               [--get-balance [DATE]] [--average-balance [YEAR]]
+               STATEMENT_PATH [STATEMENT_PATH ...]
 
 Analyse Revolut transactions.
 
 positional arguments:
-  N                     statement filename
+  STATEMENT_PATH        statement filename
 
 optional arguments:
   -h, --help            show this help message and exit
   --show-chart          display the balance charts
   --save-chart          save the balance charts in the out folder
   --check-errors        check for errors in the statements
-  --get-balance [GET_BALANCE]
-                        get balance at given date; default: last day of last
-                        year
-  --average-balance [AVERAGE_BALANCE]
-                        get mean average balance in a given year
+  --get-balance [DATE]  get balance at given date. Date format d/m/yyyy.
+                        Default: last day of last year
+  --average-balance [YEAR]
+                        get mean average balance in a given year. Default:
+                        last year
 ```
