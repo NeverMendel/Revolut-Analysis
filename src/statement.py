@@ -1,8 +1,8 @@
 from datetime import date, timedelta, datetime
 from statistics import mean
 from typing import List, Dict
-from collections import OrderedDict
 
+from src.utils import sort_dict_by_key
 from transaction import Transaction
 
 
@@ -15,6 +15,12 @@ class Statement:
         self.currency = currency
         self.transactions = transactions
 
+    def get_transaction_dict(self) -> Dict[date, Transaction]:
+        tr_dict = {}
+        for tr in self.transactions:
+            tr_dict[tr.date] = tr
+        return tr_dict
+
     def are_transactions_okay(self):
         balance = 0
         tr_okay = True
@@ -22,10 +28,10 @@ class Statement:
         for tr in self.transactions:
             balance += tr.money_in
             balance -= tr.money_out
-            if round(balance, 2) != tr.balance:
-                errors += 'Problem with balance in transaction ' + str(
-                    tr.date) + ' ' + tr.description + '; balance should be ' + str(balance) + ' but is ' + str(
-                    tr.balance)
+            balance = round(balance, 2)
+            if balance != tr.balance:
+                errors += str(
+                    fr"Expected balance doesn't match with actual in transaction {tr.date.strftime('%d %b %Y')} {tr.description} balance should be {balance} {tr.currency} but is {tr.balance} {tr.currency}")
                 tr_okay = False
         return tr_okay, errors
 
@@ -58,17 +64,13 @@ class Statement:
             last_value = balance_dict[current_date]
             current_date += timedelta(days=1)
 
-        balance_dict = balance_dict
-
-        sorted(balance_dict)
-
-        return balance_dict
+        return sort_dict_by_key(balance_dict)
 
     def get_list_balance_per_day_complete_by_year(self, year: int) -> Dict[date, float]:
         balance_dict = self.get_list_balance_per_day_complete()
         res_dict = {}
-        current_date = datetime(year, 1, 1, 0, 0, 0)
-        end_date = datetime(year, 12, 31, 0, 0, 0)
+        current_date = datetime(year, 1, 1).date()
+        end_date = datetime(year, 12, 31).date()
         last_value = 0
 
         while current_date <= end_date:

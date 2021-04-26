@@ -2,8 +2,8 @@
 import argparse
 from datetime import datetime
 
-from csv_processor import normalize_csv, read_statement_csv
 from charts import money_history_chart
+from csv_processor import read_statement_csv
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Process csv files')
@@ -13,7 +13,6 @@ if __name__ == '__main__':
 
     statements = []
     for el in args.csv:
-        normalize_csv(el)
         statements.append(read_statement_csv(el))
 
     print(f"Welcome to Revolut Analysis, you have loaded {len(statements)} statements.")
@@ -35,16 +34,19 @@ Chose one of the following options:
                 if tr_okay:
                     print(f"No errors detected in {st.currency} statement")
                 else:
-                    print(f"Errors detected in {st.currency} statement\n", errors)
+                    print(f"Errors detected in {st.currency} statement:")
+                    print(errors)
         elif option == 3:
             dateString = input("Insert the date you want to know the balance in the following format d/m/yyyy: ")
-            inputDate = datetime.strptime(dateString, "%d/%m/%Y")
+            inputDate = datetime.strptime(dateString, "%d/%m/%Y").date()
             for st in statements:
-                print(f"\nBalance on {dateString} in {st.currency} statement: {st.get_balance_on_date(inputDate)} {st.currency}")
+                print(
+                    f"\nEnd of day balance on {dateString} in {st.currency} statement: {st.get_balance_on_date(inputDate)} {st.currency}")
         elif option == 4:
             year = int(input("Insert the year you want to know the average balance: "))
             for st in statements:
-                print(f"Average balance in {year} in {st.currency}: {st.get_average_balance(year)}")
+                print(
+                    f"Average balance in {year} in {st.currency} statement: {st.get_average_balance(year)} {st.currency}")
         elif option == 5:
             break
         else:

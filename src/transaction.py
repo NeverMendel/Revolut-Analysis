@@ -8,19 +8,19 @@ class Transaction:
 
     def __init__(self, csv_obj: dict):
         c = list(csv_obj.keys())[2]
-
         self.currency = c[c.index("(") + 1:c.index(")")]
         currency_string = '(' + self.currency + ')'
-        self.date = datetime.strptime(csv_obj['Completed Date'], "%d %b %Y")
+
+        self.date = datetime.strptime(csv_obj['Completed Date'], "%d %b %Y").date()
         self.description = csv_obj['Description']
 
         self.money_out = 0
         if csv_obj['Paid Out ' + currency_string] != '':
-            self.money_out = float(csv_obj['Paid Out ' + currency_string])
+            self.money_out = round(float(csv_obj['Paid Out ' + currency_string]), 2)
 
         self.money_in = 0
         if csv_obj['Paid In ' + currency_string] != '':
-            self.money_in = float(csv_obj['Paid In ' + currency_string])
+            self.money_in = round(float(csv_obj['Paid In ' + currency_string]), 2)
 
         self.is_exchange = False
         self.exchange_other_currency = ''
