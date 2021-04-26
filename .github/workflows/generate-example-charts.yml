@@ -16,6 +16,10 @@ jobs:
         shell: bash
         run: mkdir out
 
+      - name: Install bokeh
+        shell: bash
+        run: pip install bokeh
+
       - name: Generate charts
         shell: bash
         run: ./src/main.py examples/*.txt --save-chart
