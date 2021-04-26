@@ -1,15 +1,15 @@
 from typing import List
 
 from bokeh.models import ColumnDataSource, HoverTool
-from bokeh.plotting import figure, show, output_file
+from bokeh.plotting import figure, show, output_file, save
 
-from src.utils import dict_keys_date_to_datetime
 from statement import Statement
+from utils import dict_keys_date_to_datetime
 
 
-def money_history_chart(statements: List[Statement]):
+def balance_chart(statements: List[Statement], only_save: bool):
     for st in statements:
-        output_file(fr"./out/money_out_{st.currency}.html")
+        output_file(fr"./out/balance_{st.currency}.html")
         balance_dict = dict_keys_date_to_datetime(st.get_list_balance_per_day_complete())
 
         source_balance = ColumnDataSource(data=dict(
@@ -22,7 +22,7 @@ def money_history_chart(statements: List[Statement]):
         #     tr_description=[tr.description for tr in st.transactions],
         #     tr_change=[tr.money_in - tr.money_out for tr in st.transactions]
         # ))
-        chart = figure(title=f'{st.currency} over time', x_axis_label="time", y_axis_label="money",
+        chart = figure(title=f'{st.currency} over time', x_axis_label="time", y_axis_label=fr"balance ({st.currency})",
                        x_axis_type='datetime', plot_width=1800, plot_height=700)
         chart.add_tools(HoverTool(
             tooltips=[
@@ -37,4 +37,7 @@ def money_history_chart(statements: List[Statement]):
         ))
         chart.line('date', 'balance', source=source_balance, line_width=3)
         # chart.circle('date', 'balance', source=source_transactions, size=10)
-        show(chart)
+        if only_save:
+            save(chart)
+        else:
+            show(chart)

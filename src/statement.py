@@ -2,8 +2,8 @@ from datetime import date, timedelta, datetime
 from statistics import mean
 from typing import List, Dict
 
-from src.utils import sort_dict_by_key
 from transaction import Transaction
+from utils import sort_dict_by_key
 
 
 class Statement:
@@ -71,7 +71,7 @@ class Statement:
         res_dict = {}
         current_date = datetime(year, 1, 1).date()
         end_date = datetime(year, 12, 31).date()
-        last_value = 0
+        last_value = list(balance_dict.values())[-1]
 
         while current_date <= end_date:
             if current_date in balance_dict:

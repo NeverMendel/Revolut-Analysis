@@ -1,4 +1,7 @@
-Completed Date , Description , Paid Out (CHF) , Paid In (CHF) , Exchange Out, Exchange In, Balance (CHF), Category, Notes
+Completed Date , Description , Paid Out (EUR) , Paid In (EUR) , Exchange Out, Exchange In, Balance (EUR), Category, Notes
+9 Feb 2021 , Groceries , 20.00 ,  ,  ,  , 20.60 , General ,
+1 Feb 2021 , Online Shopping , 14.00 ,  ,  ,  , 40.60 , General ,
+28 Jan 2021 , Groceries , 21.00 ,  ,  ,  , 54.60 , General ,
 26 Jan 2021 , Top-Up by *1234 , , 55.60 , , , 75.60 , General
 25 Jan 2021 , Groceries , 50.00 ,  ,  ,  , 20.00 , General ,
 23 Jan 2021 , Candy Shop , 10.00 ,  ,  ,  , 70.00 , General ,
