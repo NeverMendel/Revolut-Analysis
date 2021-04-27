@@ -1,13 +1,12 @@
 #!/usr/bin/env python3
 import argparse
 from datetime import datetime
-from typing import Optional
 
 from charts import balance_chart
 from csv_processor import read_statement_csv
 
 menu_description = """
-Chose one of the following options:
+Choose one of the following options:
   1 - Display balance over time chart
   2 - Check for errors in the statements
   3 - Get end of day balance at given date
@@ -15,10 +14,10 @@ Chose one of the following options:
   5 - Exit"""
 
 
-def menu_option(option: int, arg: Optional) -> bool:
+def menu_option(option: int, interactive_mode: bool) -> bool:
     if option == 1:
-        if arg:
-            balance_chart(statements, True)
+        if not interactive_mode:
+            balance_chart(statements, args.save_chart)
         else:
             balance_chart(statements, False)
     elif option == 2:
@@ -30,8 +29,8 @@ def menu_option(option: int, arg: Optional) -> bool:
                 print(f"Errors detected in {st.currency} statement:")
                 print(errors)
     elif option == 3:
-        if arg:
-            date_string = arg
+        if not interactive_mode:
+            date_string = args.get_balance
         else:
             date_string = input("Insert the date you want to know the balance in the following format d/m/yyyy: ")
         input_date = datetime.strptime(date_string, "%d/%m/%Y").date()
@@ -39,8 +38,8 @@ def menu_option(option: int, arg: Optional) -> bool:
         for st in statements:
             print(f"{st.currency} statement: {st.get_balance_on_date(input_date)} {st.currency}")
     elif option == 4:
-        if arg:
-            year = arg
+        if not interactive_mode:
+            year = args.average_balance
         else:
             year = int(input("Insert the year you want to know the average balance: "))
         print(f"Average balance in {year}")
@@ -67,7 +66,7 @@ if __name__ == '__main__':
     parser.add_argument('--get-balance', metavar='DATE', nargs='?', type=str, const=fr"31/12/{previous_year}",
                         help='get balance at given date. Date format d/m/yyyy. Default: last day of last year')
     parser.add_argument('--average-balance', metavar='YEAR', nargs='?', type=int, const=previous_year,
-                        help='get mean average balance in a given year. Default: last year')
+                        help='get mean average balance in a given year.\nDefault: last year')
     args = parser.parse_args()
 
     statements = []
@@ -77,20 +76,22 @@ if __name__ == '__main__':
     print(
         f"Welcome to Revolut Analysis, you have loaded {len(statements)} statements ({', '.join([st.currency for st in statements])}).")
 
-    if args.show_chart:
+    if args.show_chart or args.save_chart:
         menu_option(1, False)
-    elif args.save_chart:
-        menu_option(1, True)
+        if args.show_chart:
+            print("Charts are being displayed in the web browser")
+        else:
+            print("Charts saved in the out folder")
     elif args.check_errors:
-        menu_option(2, None)
+        menu_option(2, False)
     elif args.get_balance:
-        menu_option(3, args.get_balance)
+        menu_option(3, False)
     elif args.average_balance:
-        menu_option(4, args.average_balance)
+        menu_option(4, False)
     else:
         while True:
             print(menu_description)
             option = int(input())
-            end = menu_option(option, None)
+            end = menu_option(option, True)
             if end:
                 break

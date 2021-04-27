@@ -15,12 +15,6 @@ class Statement:
         self.currency = currency
         self.transactions = transactions
 
-    def get_transaction_dict(self) -> Dict[date, Transaction]:
-        tr_dict = {}
-        for tr in self.transactions:
-            tr_dict[tr.date] = tr
-        return tr_dict
-
     def are_transactions_okay(self):
         balance = 0
         tr_okay = True
@@ -30,6 +24,8 @@ class Statement:
             balance -= tr.money_out
             balance = round(balance, 2)
             if balance != tr.balance:
+                if not tr_okay:
+                    errors += '\n'
                 errors += str(
                     fr"Expected balance doesn't match with actual in transaction {tr.date.strftime('%d %b %Y')} {tr.description} balance should be {balance} {tr.currency} but is {tr.balance} {tr.currency}")
                 tr_okay = False

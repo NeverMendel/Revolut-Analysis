@@ -18,7 +18,7 @@ The last two are especially useful if you need to fill the italian ISEE report.
 
 The script can plot similar charts to the two below.
 
-Click on either chart to be redirected to the interactive version.
+Click on either chart to be redirected to their interactive version hosted on GitHub pages.
 
 [![CHF example chart](./examples/CHF_chart.png)](https://nevermendel.github.io/Revolut-Analysis/balance_CHF.html)
 
@@ -26,7 +26,7 @@ Click on either chart to be redirected to the interactive version.
 
 ## How to run it
 
-The script can either be used in interactive mode or by supplying one optional argument from the command line.
+The script can either be used in interactive mode or by supplying one optional flag from the command line.
 
 To run the script in interactive mode execute the following command in the Revolut-Analysis folder:
 
@@ -42,10 +42,12 @@ Some examples of csv statements can be found in the folder examples.
 
 ## Interactive menu
 
-If the script is executed without any optional argument a menu will show up guiding you through the different functionalities of the script.
+If the script is executed without any flag a menu will show up guiding you through the different functionalities.
+
+Choose one option by typing the corresponding number.  
 
 ```
-Chose one of the following options:
+Choose one of the following options:
   1 - Display balance over time chart
   2 - Check for errors in the statements
   3 - Get end of day balance at given date
@@ -55,7 +57,7 @@ Chose one of the following options:
 
 ## Optional arguments
 
-The full list of optional arguments can be display by executing `./src/main.py --help`.
+The full list of flags and optional arguments can be display by executing running the script wit`./src/main.py --help`.
 
 ```
 usage: main.py [-h] [--show-chart] [--save-chart] [--check-errors]
@@ -77,4 +79,14 @@ optional arguments:
   --average-balance [YEAR]
                         get mean average balance in a given year. Default:
                         last year
+```
+
+To run the script in non-interactive mode you need to set one of the following flags:
+
+```
+--show-chart
+--save-chart
+--check-errors
+--get-balance [DATE]
+--average-balance [YEAR]
 ```
