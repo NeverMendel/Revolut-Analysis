@@ -10,7 +10,7 @@ from utils import dict_keys_date_to_datetime
 def balance_chart(statements: List[Statement], only_save: bool):
     for st in statements:
         output_file(fr"./out/balance_{st.currency}.html")
-        balance_dict = dict_keys_date_to_datetime(st.get_list_balance_per_day_complete())
+        balance_dict = dict_keys_date_to_datetime(st.get_dict_balance_per_day_complete())
 
         source_balance = ColumnDataSource(data=dict(
             date=list(balance_dict.keys()),

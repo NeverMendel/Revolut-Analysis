@@ -7,6 +7,13 @@ from transaction import Transaction
 
 
 def get_csv_normalized(path: str) -> str:
+    """
+    Normalize Revolut statement to standard csv format
+    :param path: path of Revolut statement
+    :type path: str
+    :return: statement normalized
+    :rtype: str
+    """
     file = open(path, "rt")
     data = file.read()
     data = re.sub(r"(\d+),(\d)", r"\1\2", data)
@@ -23,6 +30,13 @@ def get_csv_normalized(path: str) -> str:
 
 
 def read_statement_csv(path: str) -> Statement:
+    """
+    Get Statement object from Revolut statement path
+    :param path: path of Revolut statement
+    :type path: str
+    :return: statement object
+    :rtype: Statement
+    """
     transactions = []
     tr_dict = csv.DictReader(io.StringIO(get_csv_normalized(path)), delimiter=',')
     for el in tr_dict:
